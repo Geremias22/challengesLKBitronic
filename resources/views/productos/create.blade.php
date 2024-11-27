@@ -102,8 +102,6 @@ Crear Producto
                 @enderror"
             >
                 <option value="Nuevo">Nuevo</option>
-                <option value="Modificado">Modificado</option>
-                <option value="Nuevo Precio">Nuevo Precio</option>
             </select>
             @error('estado')
                 <p class="bg-red-600 text-white my-2 rounded-lg text-sm text-center p-2">

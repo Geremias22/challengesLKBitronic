@@ -26,11 +26,16 @@ Editar Producto
                     id="codigo_catalogo"
                     name="codigo_catalogo"
                     type="text"
+                    placeholder="Introduce el codigo del producto"
                     value="{{ $producto->codigo_catalogo }}"
-                    readonly
-                    class="border p-2 w-full rounded-lg bg-gray-100 cursor-not-allowed"
+                    class="border p-2 w-full rounded-lg @error('codigo_catalogo') border-red-600 @enderror"
                 />
             </div>
+            @error('codigo_catalogo')
+                <p class="bg-red-600 text-white my-2 rounded-lg text-sm text-center p-2">
+                    {{ $message }}
+                </p>
+            @enderror
 
             <!-- Nombre -->
             <div class="mb-4">
@@ -86,7 +91,6 @@ Editar Producto
                     required
                     class="border p-2 w-full rounded-lg @error('estado') border-red-600 @enderror"
                 >
-                    <option value="Nuevo" {{ $producto->estado == 'Nuevo' ? 'selected' : '' }}>Nuevo</option>
                     <option value="Modificado" {{ $producto->estado == 'Modificado' ? 'selected' : '' }}>Modificado</option>
                     <option value="Nuevo Precio" {{ $producto->estado == 'Nuevo Precio' ? 'selected' : '' }}>Nuevo Precio</option>
                 </select>

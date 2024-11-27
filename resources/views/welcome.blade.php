@@ -16,4 +16,8 @@
     </a>
 </div>
 
+<div>
+    @livewire('buscador-productos')
+</div>
+
 @endsection

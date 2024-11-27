@@ -11,90 +11,90 @@ class ProductosController extends Controller
 {
 
 
-public function index()
-{
-   
-    try {
-        // Intenta conectar con la API
-        $response = Http::get('http://34.0.216.172/api/v1/products');
-
-        if ($response->successful()) {
-            $productos = $response->json();
-        } else {
-            throw new \Exception('Error al obtener datos de la API');
-        }
-    } catch (\Exception $e) {
-        // Si ocurre un error, carga datos simulados desde el archivo JSON
-        $productos = json_decode(Storage::get('data/productos.json'), true);
-        session()->flash('warning', 'Mostrando datos simulados. No se pudo conectar con la API.');
-    }
-
-    return view('productos.index', compact('productos'));
-}
-
-public function store(Request $request)
-{
-    $response = Http::post('http://34.0.216.172/api/v1/products', $request->all());
-
-    if ($response->successful()) {
-
-        // Validación
-        $this->validate($request,[
-            'codigo_catalogo' => ['required', 'string', 'max:50', 'unique:productos'],
-            'nombre' => ['required', 'string', 'max:100'],
-            'precio' => ['required', 'numeric', 'min:0', 'max:10000'],
-            'estado' => ['required', 'in:Nuevo,Modificado,Nuevo Precio'],
-        ]);
-
-        return redirect()->route('productos.index')->with('success', 'Producto creado con éxito.');
-    } else {
-        return back()->withErrors('Error al crear el producto.')->withInput();
-    }
-}
-
-public function edit($id)
-{
-    $response = Http::get("http://34.0.216.172/api/v1/products/{$id}");
-
-    if ($response->successful()) {
-        $producto = $response->json();
-        return view('productos.edit', compact('producto'));
-    } else {
-        abort(404, 'Producto no encontrado en la API.');
-    }
-}
-
-public function update(Request $request, $id)
-{
-    $response = Http::put("http://34.0.216.172/api/v1/products/{$id}", $request->all());
-
+    // public function index()
+    // {
     
+    //     try {
+    //         // Intenta conectar con la API
+    //         $response = Http::get('http://34.0.216.172/api/v1/products');
 
-    if ($response->successful()) {
+    //         if ($response->successful()) {
+    //             $productos = $response->json();
+    //         } else {
+    //             throw new \Exception('Error al obtener datos de la API');
+    //         }
+    //     } catch (\Exception $e) {
+    //         // Si ocurre un error, carga datos simulados desde el archivo JSON
+    //         $productos = json_decode(Storage::get('data/productos.json'), true);
+    //         session()->flash('warning', 'Mostrando datos simulados. No se pudo conectar con la API.');
+    //     }
 
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric|min:0',
-            'estado' => 'required|in:Nuevo,Modificado,Nuevo Precio',
-        ]);
+    //     return view('productos.index', compact('productos'));
+    // }
 
-        return redirect()->route('productos.index')->with('success', 'Producto actualizado con éxito.');
-    } else {
-        return back()->withErrors('Error al actualizar el producto.');
-    }
-}
+    // public function store(Request $request)
+    // {
+    //     $response = Http::post('http://34.0.216.172/api/v1/products', $request->all());
+
+    //     if ($response->successful()) {
+
+    //         // Validación
+    //         $this->validate($request,[
+    //             'codigo_catalogo' => ['required', 'string', 'max:50', 'unique:productos'],
+    //             'nombre' => ['required', 'string', 'max:100'],
+    //             'precio' => ['required', 'numeric', 'min:0', 'max:10000'],
+    //             'estado' => ['required', 'in:Nuevo,Modificado,Nuevo Precio'],
+    //         ]);
+
+    //         return redirect()->route('productos.index')->with('success', 'Producto creado con éxito.');
+    //     } else {
+    //         return back()->withErrors('Error al crear el producto.')->withInput();
+    //     }
+    // }
+
+    // public function edit($id)
+    // {
+    //     $response = Http::get("http://34.0.216.172/api/v1/products/{$id}");
+
+    //     if ($response->successful()) {
+    //         $producto = $response->json();
+    //         return view('productos.edit', compact('producto'));
+    //     } else {
+    //         abort(404, 'Producto no encontrado en la API.');
+    //     }
+    // }
+
+    // public function update(Request $request, $id)
+    // {
+    //     $response = Http::put("http://34.0.216.172/api/v1/products/{$id}", $request->all());
+
+        
+
+    //     if ($response->successful()) {
+
+    //         $request->validate([
+    //             'nombre' => 'required|string|max:255',
+    //             'precio' => 'required|numeric|min:0',
+    //             'estado' => 'required|in:Nuevo,Modificado,Nuevo Precio',
+    //         ]);
+
+    //         return redirect()->route('productos.index')->with('success', 'Producto actualizado con éxito.');
+    //     } else {
+    //         return back()->withErrors('Error al actualizar el producto.');
+    //     }
+    // }
 
 
-public function destroy($id)
-{
-    $response = Http::delete("http://34.0.216.172/api/v1/products/{$id}");
+    // public function destroy($id)
+    // {
+    //     $response = Http::delete("http://34.0.216.172/api/v1/products/{$id}");
 
-    if ($response->successful()) {
-        return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito.');
-    } else {
-        return redirect()->route('productos.index')->with('error', 'No se pudo eliminar el producto.');
-    }
-}
+    //     if ($response->successful()) {
+    //         return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito.');
+    //     } else {
+    //         return redirect()->route('productos.index')->with('error', 'No se pudo eliminar el producto.');
+    //     }
+    // }
 
     // /**
     //  *
@@ -110,11 +110,11 @@ public function destroy($id)
     //  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
     //  * * * * * * *
     //  */
-    // public function index()
-    // {
-    //     $productos = Productos::all();
-    //     return view('productos.index', compact('productos'));
-    // }
+    public function index()
+    {
+        $productos = Productos::all();
+        return view('productos.index', compact('productos'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -124,69 +124,70 @@ public function destroy($id)
         return view('productos.create');
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //dd($request);
-    //     //dd($request->get('codigo_catalogo'));
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //dd($request);
+        //dd($request->get('codigo_catalogo'));
 
-    //      // Validación
-    // $this->validate($request,[
-    //     'codigo_catalogo' => ['required', 'string', 'max:50', 'unique:productos'],
-    //     'nombre' => ['required', 'string', 'max:100'],
-    //     'precio' => ['required', 'numeric', 'min:0', 'max:10000'],
-    //     'estado' => ['required', 'in:Nuevo,Modificado,Nuevo Precio'],
-    // ]);
+         // Validación
+        $this->validate($request,[
+        'codigo_catalogo' => ['required', 'string', 'max:50', 'unique:productos'],
+        'nombre' => ['required', 'string', 'max:100'],
+        'precio' => ['required', 'numeric', 'min:0', 'max:10000'],
+        'estado' => ['required', 'in:Nuevo,Modificado,Nuevo Precio'],
+    ]);
 
-    // //Guardar en la base de datos
+    //Guardar en la base de datos
 
-    // Productos::create([
-    //     'codigo_catalogo' => $request->codigo_catalogo,
-    //     'nombre' => $request->nombre,
-    //     'precio' => $request->precio,
-    //     'estado' => $request->estado,
-    // ]);
+    Productos::create([
+        'codigo_catalogo' => $request->codigo_catalogo,
+        'nombre' => $request->nombre,
+        'precio' => $request->precio,
+        'estado' => $request->estado,
+    ]);
 
     
-    // // Redireccionar con mensaje de éxito
-    // return redirect()->route('home');
+    // Redireccionar 
+    return redirect()->route('home');
 
-    // }
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(Productos $productos)
-    {
-        //
-    }
+    // public function show(Productos $productos)
+    // {
+    //     //
+    // }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  */
-    // public function edit(Productos $producto)
-    // {
-    //     return view('productos.edit', compact('producto'));
-    // }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Productos $producto)
+    {
+        return view('productos.edit', compact('producto'));
+    }
     
-    // public function update(Request $request, Productos $producto)
-    // {
-    //     $request->validate([
-    //         'nombre' => 'required|string|max:255',
-    //         'precio' => 'required|numeric|min:0',
-    //         'estado' => 'required|in:Nuevo,Modificado,Nuevo Precio',
-    //     ]);
+    public function update(Request $request, Productos $producto)
+    {
+        $request->validate([
+            'codigo_catalogo' => 'required|string|max:10',
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric|min:0',
+            'estado' => 'required|in:Nuevo,Modificado,Nuevo Precio',
+        ]);
     
-    //     $producto->update($request->all());
+        $producto->update($request->all());
     
-    //     return redirect()->route('productos.index')->with('success', 'Producto actualizado con éxito');
-    // }
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado con éxito');
+    }
     
-    // public function destroy(Productos $producto)
-    // {
-    //     $producto->delete();
-    //     return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito');
-    // }
+    public function destroy(Productos $producto)
+    {
+        $producto->delete();
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito');
+    }
 }
