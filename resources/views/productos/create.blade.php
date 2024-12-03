@@ -113,8 +113,8 @@ Crear Producto
         <input 
         type="submit" 
         value="Crear producto"
-        class="bg-sky-600  uppercase cursor-pointer font-bold 
-        w-full p-3 text-white rounded-lg mt-3 text-lg hover:bg-sky-700 transition-all duration-700"
+        class="bg-indigo-600  uppercase cursor-pointer font-bold 
+        w-full p-3 text-white rounded-lg mt-3 text-lg hover:bg-indigo-700 transition-all duration-700"
         >
     </form>
     </div>

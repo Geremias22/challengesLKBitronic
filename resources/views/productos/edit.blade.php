@@ -92,7 +92,6 @@ Editar Producto
                     class="border p-2 w-full rounded-lg @error('estado') border-red-600 @enderror"
                 >
                     <option value="Modificado" {{ $producto->estado == 'Modificado' ? 'selected' : '' }}>Modificado</option>
-                    <option value="Nuevo Precio" {{ $producto->estado == 'Nuevo Precio' ? 'selected' : '' }}>Nuevo Precio</option>
                 </select>
             </div>
             @error('estado')
@@ -105,7 +104,7 @@ Editar Producto
             <input
                 type="submit"
                 value="Actualizar Producto"
-                class="bg-sky-600 uppercase cursor-pointer font-bold w-full p-3 text-white rounded-lg mt-3 text-lg hover:bg-sky-700 transition-all duration-700"
+                class="bg-yellow-400 uppercase cursor-pointer font-bold w-full p-3 text-white rounded-lg mt-3 text-lg hover:bg-yellow-500 transition-all duration-700"
             >
         </form>
     </div>

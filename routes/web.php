@@ -15,9 +15,14 @@ use App\Http\Controllers\ProductosController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('productos.index');
 })->name('home');
 
+Route::get('/productos/{id}/actualizar-precio', 
+[ProductosController::class, 'actualizarPrecio'])->name('actualizarPrecio');
+
+Route::get('/productos/actualizar-precios-masivos', 
+[ProductosController::class, 'actualizarPreciosMasivos'])->name('actualizarPreciosMasivos');
 
 
 Route::resource('/productos', ProductosController::class) ;

@@ -158,10 +158,12 @@ class ProductosController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(Productos $productos)
-    // {
-    //     //
-    // }
+    public function show($id)
+    {
+        $producto = Productos::findOrFail($id);
+    return view('productos.show', compact('producto'));
+
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -190,4 +192,63 @@ class ProductosController extends Controller
         $producto->delete();
         return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito');
     }
+
+
+    public function actualizarPrecio($id)
+    {
+        
+        $producto = Productos::findOrFail($id);
+
+        // Hacer una solicitud a la API REST para obtener el precio actualizado del producto
+        $response = Http::get("http://34.0.216.172/api/v1/products/{$producto->codigo_catalogo}");
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $nuevoPrecio = $data['precio'];
+
+            // Si el precio ha cambiado, actualizar el producto
+            if ($producto->precio != $nuevoPrecio) {
+                $producto->update([
+                    'precio' => $nuevoPrecio,
+                    'estado' => 'Nuevo Precio',
+                    'updated_at' => now(), 
+                ]);
+
+                return redirect()->route('productos.show', $producto->id)->with('success', 'Precio actualizado con éxito.');
+            } else {
+                return redirect()->route('productos.show', $producto->id)->with('info', 'El precio no ha cambiado.');
+            }
+        } else {
+            return redirect()->route('productos.show', $producto->id)->with('error', 'Error al consultar el precio del producto.');
+        }
+    }
+
+
+    public function actualizarPreciosMasivos()
+    {
+        // Hacer una solicitud a la API REST para obtener los productos que han cambiado de precio
+        $response = Http::get("http://34.0.216.172/api/v1/products/lastupdated");
+
+        if ($response->successful()) {
+            $productosActualizados = $response->json();
+
+            foreach ($productosActualizados as $productoActualizado) {
+                $producto = Productos::where('codigo_catalogo', $productoActualizado['codigo_catalogo'])->first();
+
+                if ($producto && $producto->precio != $productoActualizado['precio']) {
+                    // Si el precio ha cambiado, actualizar el producto
+                    $producto->update([
+                        'precio' => $productoActualizado['precio'],
+                        'estado' => 'Nuevo Precio',
+                        'updated_at' => now(), 
+                    ]);
+                }
+            }
+
+            return redirect()->route('productos.index')->with('success', 'Precios actualizados masivamente con éxito.');
+        } else {
+            return redirect()->route('productos.index')->with('error', 'Error al consultar los precios actualizados.');
+        }
+    }
+
 }

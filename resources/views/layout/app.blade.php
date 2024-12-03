@@ -23,8 +23,8 @@
                 
                 <nav class="flex gap-5 items-center">
                     <a class="font-bold uppercase text-gray-600 text-sm hover:text-blue-800 transition-all duration-300" href="{{route('productos.create')}}">Crear productos</a>
-                    {{-- <a class="font-bold uppercase text-gray-600 text-sm" href="">Login</a> --}}
-                    {{-- <a class="font-bold uppercase text-gray-600 text-sm" href="{{ route('register') }}">Crear cuenta</a> --}}
+                    <a class="font-bold uppercase text-gray-600 text-sm hover:text-blue-800 transition-all duration-300" href="{{ route('actualizarPreciosMasivos') }}">Actualizar Precios </a>
+                    
                 </nav>
                 
             </div>    
@@ -32,7 +32,7 @@
 
         <div class="flex flex-col min-h-screen">
             <main class="container mx-auto mt-10 flex-grow " >
-                <h2 class="font-black text-center text-3xl mb-10">
+                <h2 class="font-semibold text-center text-5xl mb-10">
                     @yield('titulo')
                 </h2>
                 @yield('contenido')
